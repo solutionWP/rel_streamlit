@@ -64,3 +64,21 @@ chart = alt.Chart(df).mark_line().encode(
 ).interactive()
 
 st.altair_chart(chart, use_container_width=True)
+
+
+st.title('Typical Activation energy')
+
+st.markdown(
+    """
+Failure mechanism | Activation Energy (eV) | Test 
+--|--|--
+oxide defects | 0.3~0.5 | HTOL 
+Silicon defects | 0.3~0.5 | HTOL 
+Corrosion | 0.45 | HAST |
+Assembly defects | 0.5~0.7 | TC |
+Electronmigration Al line | 0.6 | HAST |
+Electronmigration Contact/Via | 0.9 | HAST |
+Mask defects, photoresist defect | 0.7 | HTOL |
+Contamination | 1 | HTOL |
+Charge injection | 1.3 | HTOL |	
+""")
