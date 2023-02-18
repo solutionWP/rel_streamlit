@@ -18,14 +18,14 @@ def arrhenius_acceleration_model(app_amb_T, stress_amb_T, activation_energy, pri
     return AF
 
 st.title('Arrhenius Law Application')
-st.write('Enter the activation energy, ambient temperature, and reference temperature below to calculate the Arrhenius factor:')
+st.write('Enter the activation energy, ambient temperature, and reference temperature below to calculate the Acceleration Factor:')
 
-activation_energy = st.slider('Activation Energy (eV)', 0.1, 1.0, 0.7, 0.1)
-app_amb_T = st.slider('Ambient Temperature (°C)', -40, 200, 25, 5)
-stress_amb_T = st.slider('Stress ambiant Temperature (°C)', -40, 200, 25, 5)
+activation_energy = st.sidebar.slider('Activation Energy (eV)', 0.1, 1.0, 0.7, 0.1)
+app_amb_T = st.sidebar.slider('Ambient Temperature (°C)', -40, 200, 25, 5)
+stress_amb_T = st.sidebar.slider('Stress ambient Temperature (°C)', -40, 200, 25, 5)
 
 arr_factor = arrhenius_acceleration_model(app_amb_T, stress_amb_T, activation_energy)
-st.write(arr_factor)
+st.write("Acceleration Factor: " + str(arr_factor))
 
 
 #df = pd.DataFrame({
@@ -35,21 +35,21 @@ st.write(arr_factor)
 #})
 
 
-amp_ref_temp = 55
-amb_T = [x for x in range(-40, 260, 10)]
+#app_temp = app_amb_T
+stress_amb_T = [x for x in range(-40, 260, 10)]
 activation_energy = [0.4, 0.7, 0.8, 1]
-comb = np.array(np.meshgrid(amb_T, activation_energy)).T.reshape(-1,2)
+comb = np.array(np.meshgrid(stress_amb_T, activation_energy)).T.reshape(-1,2)
 
-df = pd.DataFrame(data=comb,columns=["Temperature(°C)", "Activation energy(eV)"])
-df['ref Ambient temp(°C)']= 55
-df["Acceleration Factor"] = arrhenius_acceleration_model(df["ref Ambient temp(°C)"], df["Temperature(°C)"], df["Activation energy(eV)"], print_result=False)
+df = pd.DataFrame(data=comb, columns=["Stress ambient Temperature (°C)", "Activation energy(eV)"])
+df['Application Ambient temp(°C)']= app_amb_T
+df["Acceleration Factor"] = arrhenius_acceleration_model(df["Application Ambient temp(°C)"], df["Stress ambient Temperature (°C)"], df["Activation energy(eV)"], print_result=False)
 
 
 #print(df)
 #st.write(df)
 
 chart = alt.Chart(df).mark_line().encode(
-    x='Temperature(°C):Q',
+    x='Stress ambient Temperature (°C):Q',
     y=alt.Y('Acceleration Factor:Q',scale=alt.Scale(domain=(0,1000),zero=True)),
     color='Activation energy(eV)'+':N'
 ).properties(
